@@ -30,7 +30,7 @@ branches:
   only:
     - master
     - /feature\..*/
-    - add-appveyor
+    - add-appveyor # For while testing and we'we don't have a PR..
 
 cache:
   - '%APPDATA%\Pub\Cache'
