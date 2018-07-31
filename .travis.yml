@@ -1,3 +1,5 @@
+# This file should be kept in-sync with appveyor.yml!
+
 language: dart
 sudo: required
 
