@@ -10,17 +10,19 @@ environment:
     - SHARD_INDEX: 4
 
 install:
-  - ps: $env:DART_CHANNEL="stable"
+  - ps: $env:DART_CHANNEL="dev"
   - ps: Invoke-WebRequest "https://storage.googleapis.com/dart-archive/channels/${env:DART_CHANNEL}/release/latest/sdk/dartsdk-windows-x64-release.zip" -OutFile "dart.zip"
-  - ps: 7z.exe x dart.zip | out-null
-  - ps: $env:Path += ";$pwd\dart-sdk\bin"
-  - dart-sdk\bin\dart --version
+  - ps: 7z.exe x dart.zip -oC:\projects | out-null
+  - ps: $env:Path += ";C:\projects\dart-sdk\bin"
   - choco install googlechrome
 
-test_script:
+build_script:
+  - dart --version
   - pub get
   - dartfmt -n --set-exit-if-changed .
   - dartanalyzer --fatal-infos --fatal-warnings .
+
+test_script:
   - pub run test --preset travis --total-shards 5 --shard-index %SHARD_INDEX%
 
 # Only building master means that we don't run two builds for each pull request.
@@ -28,6 +30,7 @@ branches:
   only:
     - master
     - /feature\..*/
+    - add-appveyor
 
 cache:
   - '%APPDATA%\Pub\Cache'
