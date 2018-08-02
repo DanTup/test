@@ -25,7 +25,7 @@ build_script:
   - dartanalyzer --fatal-infos --fatal-warnings .
 
 test_script:
-  - pub run test --preset travis --total-shards 5 --shard-index %SHARD_INDEX%
+  - pub run test --preset vm --total-shards 5 --shard-index %SHARD_INDEX%
 
 # Only building master means that we don't run two builds for each pull request.
 branches:
