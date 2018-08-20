@@ -27,7 +27,7 @@ build_script:
 
 test_script:
   # Only run VM tests for now.
-  - pub run test -p vm --preset travis --total-shards 5 --shard-index %SHARD_INDEX%
+  - pub run test -p vm --total-shards 5 --shard-index %SHARD_INDEX%
 
 # Only building master means that we don't run two builds for each pull request.
 branches:
