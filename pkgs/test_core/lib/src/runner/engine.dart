@@ -280,9 +280,16 @@ class Engine {
             _addLiveSuite(controller.liveSuite);
 
             if (_closed) return;
+            print('running root group');
             await _runGroup(controller, controller.liveSuite.suite.group, []);
+            print('finished running root group');
             controller.noMoreLiveTests();
-            if (_coverage != null) await writeCoverage(_coverage!, controller);
+
+            if (_coverage != null) {
+              print('writing coverage...');
+              await writeCoverage(_coverage!, controller);
+              print('done writing coverage...');
+            }
           } finally {
             resource.allowRelease(() => controller?.close());
           }
@@ -315,7 +322,9 @@ class Engine {
       if (!skipGroup && group.setUpAll != null) {
         var liveTest = group.setUpAll!
             .load(suiteController.liveSuite.suite, groups: parents);
+        print('running setUpAll...');
         await _runLiveTest(suiteController, liveTest, countSuccess: false);
+        print('done running setUpAll');
         setUpAllSucceeded = liveTest.state.result.isPassing;
       }
 
@@ -332,13 +341,19 @@ class Engine {
           if (_closed) return;
 
           if (entry is Group) {
+            print('running child group ${entry.name}...');
             await _runGroup(suiteController, entry, parents);
+            print('done running child group');
           } else if (!suiteConfig.runSkipped && entry.metadata.skip) {
+            print('running skipped test ${entry.name}...');
             await _runSkippedTest(suiteController, entry as Test, parents);
+            print('done running skipped test');
           } else {
             var test = entry as Test;
+            print('running live test ${entry.name}...');
             await _runLiveTest(suiteController,
                 test.load(suiteController.liveSuite.suite, groups: parents));
+            print('done running live test');
           }
         }
       }
@@ -348,7 +363,9 @@ class Engine {
       if (!skipGroup && group.tearDownAll != null) {
         var liveTest = group.tearDownAll!
             .load(suiteController.liveSuite.suite, groups: parents);
+        print('running teardown...');
         await _runLiveTest(suiteController, liveTest, countSuccess: false);
+        print('done running teardown');
         if (_closed) await liveTest.close();
       }
     } finally {
