@@ -19,14 +19,18 @@ import 'string_literal_iterator.dart';
 /// passed to the [main] method of the code being run; the caller is responsible
 /// for using this to establish communication with the isolate.
 Future<Isolate> runInIsolate(String code, Object message,
-        {SendPort? onExit}) async =>
-    Isolate.spawnUri(
-        Uri.dataFromString(code, mimeType: 'application/dart', encoding: utf8),
-        [],
-        message,
-        packageConfig: await packageConfigUri,
-        checked: true,
-        onExit: onExit);
+    {SendPort? onExit}) async {
+  var isolate = await Isolate.spawnUri(
+      Uri.dataFromString(code, mimeType: 'application/dart', encoding: utf8),
+      [],
+      message,
+      packageConfig: await packageConfigUri,
+      checked: true,
+      onExit: onExit);
+  isolate.setErrorsFatal(false);
+  isolate.errors.listen((e) => print('RUNINISOLATE: $e'));
+  return isolate;
+}
 
 /// Takes a span whose source is the value of a string that has been parsed from
 /// a Dart file and returns the corresponding span from within that Dart file.

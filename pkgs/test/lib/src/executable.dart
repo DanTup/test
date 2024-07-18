@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:isolate';
+
 import 'package:test_api/src/backend/runtime.dart'; // ignore: implementation_imports
 // ignore: implementation_imports
 import 'package:test_core/src/executable.dart' as executable;
@@ -12,6 +14,9 @@ import 'runner/node/platform.dart';
 
 Future<void> main(List<String> args) async {
   print("Danny's custom version of test");
+  Isolate.current.setErrorsFatal(false);
+  Isolate.current.errors.listen((e) => print('MAIN: $e'));
+
   registerPlatformPlugin([Runtime.nodeJS], NodePlatform.new);
   registerPlatformPlugin([
     Runtime.chrome,
