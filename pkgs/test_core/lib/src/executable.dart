@@ -162,7 +162,15 @@ Future<void> _execute(List<String> args) async {
     exitCode = exit_codes.noTestsRan;
   } catch (error, stackTrace) {
     stderr.writeln(getErrorMessage(error));
-    stderr.writeln(Trace.from(stackTrace).terse);
+    stderr.writeln(stackTrace);
+    var trace = Trace.from(stackTrace);
+    stderr.writeln('---');
+    stderr.writeln(trace);
+    stderr.writeln('---');
+    stderr.writeln(trace.original);
+    stderr.writeln('---');
+    stderr.writeln(trace.vmTrace);
+    stderr.writeln('---');
     stderr.writeln('This is an unexpected error. Please file an issue at '
         'http://github.com/dart-lang/test\n'
         'with the stack trace and instructions for reproducing the error.');
