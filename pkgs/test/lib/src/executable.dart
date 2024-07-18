@@ -11,6 +11,7 @@ import 'runner/browser/platform.dart';
 import 'runner/node/platform.dart';
 
 Future<void> main(List<String> args) async {
+  print("Danny's custom version of test");
   registerPlatformPlugin([Runtime.nodeJS], NodePlatform.new);
   registerPlatformPlugin([
     Runtime.chrome,
