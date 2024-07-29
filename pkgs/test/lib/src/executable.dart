@@ -14,7 +14,7 @@ import 'runner/node/platform.dart';
 
 Future<void> main(List<String> args) async {
   print("Danny's custom version of test");
-  // Isolate.current.setErrorsFatal(false);
+  Isolate.current.setErrorsFatal(false);
   Isolate.current.errors.listen((e) => print('MAIN: $e'));
 
   registerPlatformPlugin([Runtime.nodeJS], NodePlatform.new);
