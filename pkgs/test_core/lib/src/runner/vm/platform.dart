@@ -248,7 +248,7 @@ stderr: ${processResult.stderr}''');
   Future<Isolate> _spawnIsolateWithUri(Uri uri, SendPort message) async {
     var isolate = await Isolate.spawnUri(uri, [], message,
         packageConfig: await packageConfigUri, checked: true);
-    isolate.setErrorsFatal(false);
+    // isolate.setErrorsFatal(false);
     isolate.errors.listen((e) => print('WITHURI: $e'));
     return isolate;
   }
@@ -289,7 +289,7 @@ stderr: ${processResult.stderr}''');
     }
     var isolate = await Isolate.spawnUri(testUri, [], message,
         packageConfig: packageConfig?.uri, checked: true);
-    isolate.setErrorsFatal(false);
+    // isolate.setErrorsFatal(false);
     isolate.errors.listen((e) => print('PRECOMP: $e'));
     return isolate;
   }
