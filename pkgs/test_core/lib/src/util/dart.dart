@@ -27,8 +27,8 @@ Future<Isolate> runInIsolate(String code, Object message,
       packageConfig: await packageConfigUri,
       checked: true,
       onExit: onExit);
-  isolate.setErrorsFatal(false);
-  isolate.errors.listen((e) => print('RUNINISOLATE: $e'));
+  // isolate.setErrorsFatal(false);
+  // isolate.errors.listen((e) => print('RUNINISOLATE: $e'));
   return isolate;
 }
 
